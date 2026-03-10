@@ -2827,10 +2827,25 @@ func newViamClient(c *cli.Context) (*viamClient, error) {
 	return client, nil
 }
 
+func isTLSLocalhost(url *url.URL) bool {
+	if url.Scheme != "https" {
+		return false
+	}
+
+	return strings.HasPrefix(url.Host, "0.0.0.0") || strings.HasPrefix(url.Host, "localhost")
+
+}
+
 func newViamClientInner(c *cli.Context, disableBrowserOpen bool) (*viamClient, error) {
 	baseURL, conf, err := getBaseURL(c)
 	if err != nil {
 		return nil, err
+	}
+	if isTLSLocalhost(baseURL) {
+		warningf(
+			c.App.ErrWriter,
+			"you are trying to log into localhost with a TLS connection."+
+				" This will likely result in a hang; please try logging in to http localhost instead")
 	}
 
 	if err = conf.checkUpdate(c); err != nil {
