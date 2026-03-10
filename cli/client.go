@@ -2831,7 +2831,6 @@ func isTLSLocalhost(url *url.URL) bool {
 	if url.Scheme != "https" {
 		return false
 	}
-
 	return strings.HasPrefix(url.Host, "0.0.0.0") || strings.HasPrefix(url.Host, "localhost")
 
 }
