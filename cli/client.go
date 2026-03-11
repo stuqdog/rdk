@@ -2832,7 +2832,6 @@ func isTLSLocalhost(url *url.URL) bool {
 		return false
 	}
 	return strings.HasPrefix(url.Host, "0.0.0.0") || strings.HasPrefix(url.Host, "localhost")
-
 }
 
 func newViamClientInner(c *cli.Context, disableBrowserOpen bool) (*viamClient, error) {
